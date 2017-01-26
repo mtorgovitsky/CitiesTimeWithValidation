@@ -1,0 +1,32 @@
+﻿@model CitiesTimeWithValidation.Models.CitiesDB
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "Index"))
+{
+    @Html.DropDownListFor(c => c.SelectedID,
+                    new SelectList(Model.Cities, "ID", "Name"))
+    <input type="submit" value="Send" />
+    <br />
+    <span style="color: red">
+        @Html.ValidationMessageFor(val => val.SelectedID)
+    </span>
+}
+
+@{
+    var selectedCity = Model.Cities.FirstOrDefault(c => c.ID == Model.SelectedID);
+    if (selectedCity != null)
+    {
+        //so we'll not display the "Default" city
+        if (selectedCity.ID > 0)
+        {
+            <span>
+                The Time in: @selectedCity.Name is: @selectedCity.CurrentTime
+            </span>
+        }
+    }
+}
